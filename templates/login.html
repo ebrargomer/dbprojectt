@@ -1,0 +1,92 @@
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+<html>
+<head>
+<link href="static/css/login.css" rel="stylesheet" type="text/css" media="all">
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+  height: 300px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+</style>
+</head>
+
+{%block body %}
+
+
+<div class="row">
+  <div class="column" >
+    <form action="{{url_for('checkastro')}}" method="POST">
+        <div class="imgcontainer">
+            <img src="static/images/pitch.png" alt="Avatar" class="avatar"width="100" height="150">
+        </div>
+      
+        <div class="container">
+          <label for="uname"><b>Astro Name</b></label>
+          <input type="text" placeholder="Enter Username" name="unamepitch" required>
+      
+          <label for="psw"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="pswpitch" required>
+      
+          <button type="submit">Login</button>
+          <button onclick="location.href='/signupastro'" type="button">
+            Sign Up as Astropitch</button>
+
+          <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+          </label>
+        </div>
+      
+        <div class="container" style="background-color:#f1f1f1">
+          <button type="button" class="cancelbtn">Cancel</button>
+          <span class="psw">Forgot <a href="#">password?</a></span>
+        </div>
+      </form>
+  </div>
+  <div class="column">
+    <form action="{{url_for('checkuser')}}" method="POST">
+        <div class="imgcontainer">
+          <img src="static/images/player.png" alt="Avatar" class="avatar" width="100" height="150">
+        </div>
+      
+        <div class="container">
+          <label for="uname"><b>Phone Number</b></label>
+          <input type="text" placeholder="Enter Username" name="unameuser" required>
+      
+          <label for="psw"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" name="pswuser" required>
+      
+          <button type="submit">Login</button>
+          <button onclick="location.href='/signupuser'" type="button">
+            Sign Up as User</button>
+
+          <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+          </label>
+        </div>
+      
+        <div class="container" style="background-color:#f1f1f1">
+          <button type="button" class="cancelbtn">Cancel</button>
+          <span class="psw">Forgot <a href="#">password?</a></span>
+        </div>
+      </form>
+  </div>
+</div>
+
+                      
+    {% endblock %}

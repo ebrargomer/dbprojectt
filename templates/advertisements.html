@@ -1,0 +1,372 @@
+
+<style>
+   .dropbtn {
+     background-color: #4CAF50;
+     color: white;
+     padding: 16px;
+     font-size: 16px;
+     border: none;
+   }
+   
+   .dropdown {
+     position: relative;
+     display: inline-block;
+   }
+   
+   .dropdown-content {
+     display: none;
+     position: absolute;
+     background-color: #f1f1f1;
+     min-width: 160px;
+     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+     z-index: 1;
+   }
+   
+   .dropdown-content a {
+     color: black;
+     padding: 12px 16px;
+     text-decoration: none;
+     display: block;
+   }
+   
+   .dropdown-content a:hover {background-color: #ddd;}
+   
+   .dropdown:hover .dropdown-content {display: block;}
+   
+   .dropdown:hover .dropbtn {background-color: #3e8e41;}
+   </style>
+
+   <header>
+      <nav class="navbar navbar-expand-md navbar-dark  bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">ONLINE ASTRO PITCH SYSTEM </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+              <li class="nav-item active">
+                <a class="nav-link" aria-current="page" href="{{ url_for('Index') }}" >Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('User') }}">Users</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('Astro') }}">Astropitches</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('Adv') }}">Advertisements</a>
+              </li>
+       
+            </ul>
+            <form class="d-flex">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    </header>
+   
+<script type="text/javascript" src="{{url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static', filename = 'js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static', filename = 'js/my.js')}}"></script>
+
+<head>
+<title>Application </title>
+<link rel="shortcut icon" href="{{url_for('static', filename='icon.png')}}">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href="{{url_for('static', filename='css/bootstrap.min.css')}}" rel="stylesheet">
+
+</head>
+<body>
+   <div class="w3-sidebar w3-bar-block w3-light-grey w3-card" style="width:170px;">
+      <button class="w3-button w3-block w3-left-align" onclick="myAccFunc()">
+      What position needed<br> in cities? <i class="fa fa-caret-down"></i>
+      </button>
+      <div id="demoAcc" class="w3-hide w3-white w3-card">
+         <table>
+            <tr>
+              <th>City</th>
+              <th>Position</th>
+            </tr>
+            
+        {% for row in acc %}
+             <tr>
+            <td>{{row.0}}</td>
+            <td>{{row.1}}</td>
+            </tr>
+            {% endfor  %}
+         </table>
+      </div>
+      
+      <h5>If you want to search spesifically:</h5>
+      <div class="w3-dropdown-click">
+         <button class="w3-button" onclick="myDropFunc()">
+            Choose: <i class="fa fa-caret-down"></i>
+          </button> 
+          <div id="demoDrop" class="w3-dropdown-content w3-bar-block w3-white w3-card">
+                  <a href="kaleci" class="w3-bar-item w3-button">Goalkeeper</a>
+                 <a href="forvet"class="w3-bar-item w3-button">Striker</a>
+                 <a href="defans "class="w3-bar-item w3-button">Defense</a>
+                 <a href="adv "class="w3-bar-item w3-button">Total</a>
+
+               </div>
+             </div>
+      
+      </div>
+     
+    </div>
+<div class="container"  style="margin-left:160px">
+    <div class="well text-center">
+        <h1> Advertisements Page</h1>
+    </div>
+</div>
+
+<div class="container" style="margin-left:160px">
+    <div class="row">
+        <div class="col md-12">
+            <h2>Advertisements List </h2>
+            <h6> To create an advertisement, please insert your game information first:   <button type="button" class="btn btn-success  pull-right" data-toggle="modal" data-target="#myModaladdgame">Add Game Data</button>
+            </h6>
+            <h6>Now you ready to create an ad, to learn your game id you can look up here :            <button type="button" class="btn btn-success  pull-right" data-toggle="modal" data-target="#lookgame">Look to your game id</button> 
+               <button type="button" class="btn btn-success  pull-right" data-toggle="modal" data-target="#myModaladdadv">Add Advertisement Data</button>
+            </h6>   
+          
+          
+         
+            
+            {%with messages = get_flashed_messages()%}
+
+            {%if messages%}
+        
+            {% for message in messages %}
+            <div class="alert alert-success alert-dismissable" role="alert">
+
+             <button type="button" class="close" data-dismiss="alert" aria-label ="close">
+        
+                 <span aria-hidden="true">&times;</span>
+        
+             </button>
+                {{message}}
+        
+        
+            </div>
+        
+        
+            {%endfor%}
+            {%endif%}
+            {%endwith%}
+            <table class="table table-striped">
+
+
+            <tr>
+              <th>Serial</th>
+              <th>Advertiser</th>
+              <th>Astropitch</th>
+              <th>Missing Field</th>
+              <th>Game id</th>
+              <th>Action</th>
+            </tr>
+            
+        {% for row in advs %}
+        <tr>
+            <td>{{row.0}}</td>
+            <td>{{row.1}}</td>
+            <td>{{row.2}}</td>
+            <td>{{row.3}}</td>
+            <td>{{row.4}}</td>
+            <td>
+                <a href="/advdate/{{row.0}}" class="btn btn-light btn-xs" data-toggle="modal" data-target="#modaledit{{row.0}}">Edit</a>
+                <a href="/advdelete/{{ row.0 }}" class="btn btn-secondary btn-xs" onclick="return confirm('Are You Sure For Delete?')">Delete</a>
+                <a href="/advapply/{{ row.0 }}" class="btn btn-outline-danger btn-xs" data-toggle="modal" data-target="#modalapply{{row.0}}">Apply</a>
+
+               </td>
+            </tr>
+        </div>
+    </div>
+    <div id="modaledit{{row.0}}" class="modal fade" role="dialog">
+       <div class="modal-dialog">
+             <div class="modal-content">
+                <div class="modal-header">
+                   <button type="button" class="close" data-dismiss="modal">&times;</button>
+                   <h4 class="modal-title">Please Insert Data</h4>
+                </div>
+                <div class="modal-body">
+                   <form action="{{ url_for('advupdate') }}" method="POST">
+
+                      <div class="form-group">
+                         <label>Advertiser:</label>
+                         <input type="hidden"  name="id" value="{{row.0}}">
+                         <input type="text" class="form-control" name="user" value="{{row.1}}" required="1">
+                      </div>
+
+                       <div class="form-group">
+                         <label>Astropitch:</label>
+                         <input type="text" class="form-control" name="astro" value="{{row.2}}" required="1">
+                       </div>
+
+                       <div class="form-group">
+                          <label>Missing Field:</label>
+                         <input type="text" class="form-control" name="missing" value="{{row.3}}" required="1">
+                      </div>
+                      
+                      <div class="form-group">
+                        <label>Game Num:</label>
+                        <input type="text" class="form-control" name="gamenum" value="{{row.4}}" required="1">
+                     </div>
+                 
+                      <div class="form-group">         
+                         <button class="btn btn-primary" type="submit">Insert Data</button>
+                      </div>
+                      
+                   </form>
+                </div>
+                <div class="modal-footer">
+                   <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+           </div>
+          </div>
+       </div>
+       <div id="modalapply{{row.0}}" class="modal fade" role="dialog">
+         <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     <h5 class="modal-title">Application Data</h4>
+                  </div>
+                  <div class="modal-body">
+                     <form action="{{ url_for('advapply') }}" method="POST">
+  
+                        <div class="form-group">
+                           <label>Your name:</label>
+                           <input type="hidden"  name="id" value="{{row.0}}">
+                           <input type="text" class="form-control" name="user" required="1">
+                        </div>
+
+                        <div class="form-group">         
+                           <button class="btn btn-primary" type="submit">Apply</button>
+                        </div>
+                        
+                     </form>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+             </div>
+            </div>
+         </div>
+   
+    {% endfor  %}
+
+
+        </tbody>
+
+
+    </table>
+</div>
+<div id="myModaladdadv" class="modal fade" role="dialog">
+ <div class="modal-dialog">
+    <div class="modal-content">
+       <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Please Insert Advertisement Data</h4>
+       </div>
+       <div class="modal-body">
+          <form action="{{url_for('advinsert')}}" method="POST">
+             <div class="form-group">
+                <label>Advertiser:</label>
+                <input type="text" class="form-control" name="user" required="1">
+             </div>
+              <div class="form-group">
+                <label>Astropitch:</label>
+                <input type="text" class="form-control" name="astro" required="1">
+             </div>
+             <div class="form-group">
+               <label>Missing Field:</label>
+              <input type="text" class="form-control" name="missing"  required="1">
+           </div>
+              <div class="form-group">
+               <label>Game Id:</label>
+               <input type="text" class="form-control" name="gamenum"  required="1">
+            </div>
+            
+             <div class="form-group">         
+                <button class="btn btn-primary" type="submit">Insert Data</button>
+             </div>
+             
+          </form>
+       </div>
+       <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+   </div>
+  </div>
+ </div>
+ </div>
+ <div id="myModaladdgame" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Please Insert Game Data</h4>
+         </div>
+         <div class="modal-body">
+            <form action="{{url_for('calinsert')}}" method="POST">
+               <div class="form-group">
+                  <label>Game Day:</label>
+                  <input type="text" class="form-control" name="gameday" required="1">
+               </div>
+                <div class="form-group">
+                  <label>Game Hour:</label>
+                  <input type="text" class="form-control" name="gamehour" required="1">
+               </div>
+               <div class="form-group">
+                 <label>Astro name:</label>
+                <input type="text" class="form-control" name="astro"  required="1">
+             </div>
+             
+              
+               <div class="form-group">         
+                  <button class="btn btn-primary" type="submit">Insert Data</button>
+               </div>
+               
+            </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+     </div>
+    </div>
+   </div>
+   </div>
+   <div class="modal fade" id="lookgame" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+         <table class="table table-striped">
+
+
+            <tr>
+              <th>Game id</th>
+              <th>Game hour</th>
+              <th>Game day</th>
+              <th>Astropitch</th>
+         
+            </tr>
+         {% for row in games %}
+         <tr>
+             <td>{{row.0}}</td>
+             <td>{{row.1}}</td>
+             <td>{{row.2}}</td>
+             <td>{{row.3}}</td>
+             </tr>
+        </div>
+        
+      </div>
+    </div>
+    
+    {% endfor  %}
+  
+    
+    
+</body>
+</html>
