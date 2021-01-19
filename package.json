@@ -1,6 +1,7 @@
 {
     "name": "Online-astro-search-system",
     "version": "0.0.0",
-    "author": "Ebrar Ömer"
+    "author": "Ebrar Ömer",
+    "start" :  "python app.py"
 
 }
