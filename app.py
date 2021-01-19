@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request, redirect,url_for,flash,session
+from flask import Flask,render_template,request, redirect,url_for
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
@@ -48,7 +48,6 @@ def checkastro():
         if account:
            return redirect(url_for('Index'))
         else:
-            flash("WRONG INFORMATION HAS ENTERED")
             return redirect(url_for('login'))
     return redirect(url_for('login'))   
 
@@ -67,7 +66,6 @@ def User():
 @app.route('/userinsert', methods = ['POST'])
 def userinsert():
     if request.method == "POST":
-        flash("Data Inserted Successfully")
         name = request.form['name']
         age = request.form['age']
         height = request.form['height']
@@ -97,14 +95,12 @@ def userupdate():
                SET User_name=%s, Age=%s, Height=%s, Weight=%s, Location=%s, Phone_num=%s
                WHERE User_id=%s
             """, (name, age, height,weight,location,phone_num,id_data))
-        flash("Data Updated Successfully")
         mysql.connection.commit()
         return redirect(url_for('User'))
 
 
 @app.route('/userdelete/<string:id_data>', methods = ['GET'])
 def userdelete(id_data):
-    flash("Record Has Been Deleted Successfully")
     cur = mysql.connection.cursor()
     cur.execute("DELETE FROM User WHERE User_id=%s", (id_data,))
     mysql.connection.commit()
@@ -143,7 +139,6 @@ def astroforpoint():
 @app.route('/astroinsert', methods = ['POST'])
 def astroinsert():
     if request.method == "POST":
-        flash("Data Inserted Successfully")
         name = request.form['name']
         campaign = request.form['campaign']
         price = request.form['price']
@@ -171,7 +166,6 @@ def astroupdate():
                SET Astro_name=%s, Campaign=%s, Price=%s, Location=%s , Point= %s
                WHERE Astro_id=%s
             """, (name, campaign, price,location,point,id_data))
-        flash("Data Updated Successfully")
         mysql.connection.commit()
         return redirect(url_for('Astro'))
 
@@ -187,7 +181,6 @@ def astrocalendar(id_data):
 
 @app.route('/astrodelete/<string:id_data>', methods = ['GET'])
 def astrodelete(id_data):
-    flash("Record Has Been Deleted Successfully")
     cur = mysql.connection.cursor()
     cur.execute("DELETE FROM astropitch WHERE Astro_id=%s", (id_data,))
     mysql.connection.commit()
@@ -208,7 +201,6 @@ def Adv():
 @app.route('/calinsert',methods=['POST'])
 def calinsert():
      if request.method == "POST":
-        flash("Data Inserted Successfully")
         gameday =request.form['gameday']
         gamehour = request.form['gamehour']
         astronum = request.form['astro']
@@ -220,7 +212,6 @@ def calinsert():
 @app.route('/advinsert', methods = ['POST'])
 def advinsert():
     if request.method == "POST":
-        flash("Data Inserted Successfully")
         astronum = request.form['astro']
         usernum = request.form['user']
         missing = request.form['missing']
@@ -244,7 +235,6 @@ def advupdate():
                SET User=%s,Astro=%s,  Missing_Field=%s, Game=%s
                WHERE Adv_id=%s
             """, (usernum, astronum, missing,gamenum,id_data))
-        flash("Data Updated Successfully")
         mysql.connection.commit()
         return redirect(url_for('Adv'))
 
@@ -255,12 +245,10 @@ def advapply():
     cur = mysql.connection.cursor()
     cur.execute("INSERT INTO `advertisement_information` (`Adv_info`, `Applicant_info`) SELECT user.user_id, advertisement.Adv_id FROM User,advertisement WHERE user.User_name=%s AND advertisement.Adv_id =%s ", (userid,id_data,))
     mysql.connection.commit()
-    flash("Your application has recorded.")
     return redirect(url_for('Adv'))
 
 @app.route('/advdelete/<string:id_data>', methods = ['GET'])
 def advdelete(id_data):
-    flash("Record Has Been Deleted Successfully")
     cur = mysql.connection.cursor()
     cur.execute("DELETE FROM advertisement WHERE Adv_id=%s", (id_data,))
     mysql.connection.commit()
